@@ -16,17 +16,25 @@
 }
 
 body {
-  padding-top: 82px;
   padding-bottom: 82px;
   font-family: "Inter", sans-serif;
   color: var(--color-dark);
 }
 
+body[data-page="home"] {
+  padding-top: 0;
+}
+
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
   min-height: 82px;
   padding: 10px 0;
   background-color: var(--color-header-bg);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .navbar-hidden {
@@ -173,8 +181,6 @@ body {
 }
 
 .hero-section {
-  margin-top: -82px;
-  padding-top: 82px;
   background-color: var(--color-dark);
 }
 

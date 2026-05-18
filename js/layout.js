@@ -40,7 +40,7 @@ function companyLogo(className = "site-logo-img", width = 72, height = 72) {
 
 function createNavbar() {
   const nav = document.createElement("nav");
-  nav.className = "navbar navbar-expand-lg fixed-top shadow-sm";
+  nav.className = "navbar navbar-expand-lg shadow-sm";
   nav.innerHTML = `
     <div class="container">
       <a class="navbar-brand site-logo-link d-inline-flex align-items-center" href="${basePath}index.html" aria-label="${company.name} anasayfa">
