@@ -6,6 +6,8 @@ const products = [
     name: "Domates Fidesi",
     description:
       "Güçlü kök gelişimi ve sağlıklı yapısıyla dikime hazır domates fideleri.",
+    unitPrice: 20,
+    stockStatus: "available",
   },
   {
     id: 2,
@@ -14,6 +16,8 @@ const products = [
     name: "Biber Fidesi",
     description:
       "Serada özenle yetiştirilen, üretim planınıza uyum sağlayan biber fideleri.",
+    unitPrice: 20,
+    stockStatus: "available",
   },
   {
     id: 3,
@@ -22,6 +26,8 @@ const products = [
     name: "Patlıcan Fidesi",
     description:
       "Dengeli gelişim gösteren, dikim dönemine uygun patlıcan fideleri.",
+    unitPrice: 20,
+    stockStatus: "available",
   },
   {
     id: 4,
@@ -29,6 +35,8 @@ const products = [
     category: "Sebze Fidesi",
     name: "Kabak Fidesi",
     description: "Canlı yaprak ve kök yapısıyla üretime hazır kabak fideleri.",
+    unitPrice: 20,
+    stockStatus: "available",
   },
   {
     id: 5,
@@ -37,6 +45,8 @@ const products = [
     name: "Salatalık Fidesi",
     description:
       "Sera koşullarında düzenli gelişimle hazırlanan salatalık fideleri.",
+    unitPrice: 20,
+    stockStatus: "available",
   },
   {
     id: 6,
@@ -45,6 +55,8 @@ const products = [
     name: "Marul Fidesi",
     description:
       "Taze üretim hedefleyen yetiştiriciler için pratik marul fide seçenekleri.",
+    unitPrice: 20,
+    stockStatus: "out-of-stock",
   },
   {
     id: 7,
@@ -53,6 +65,8 @@ const products = [
     name: "Reyhan Fidesi",
     description:
       "Aromatik üretimler için sağlıklı, canlı ve bakımlı reyhan fideleri.",
+    unitPrice: 20,
+    stockStatus: "available",
   },
 ];
 
@@ -60,56 +74,84 @@ const orderPhone = "+905422503525";
 
 function productCard(product) {
   const imgBase = `${basePath}assets/img/${product.image}`;
+  const isOutOfStock = product.stockStatus === "out-of-stock";
+
   const message = encodeURIComponent(
     `${product.name} siparişi vermek istiyorum. Bilgi alabilir miyim?`,
   );
 
   return `
     <div class="col-md-6 col-lg-4">
-  <article class="product-card h-100 rounded-4 bg-white shadow-sm overflow-hidden">
-    <picture>
-      <source
-        srcset="${imgBase}.avif 1x, ${imgBase}@2x.avif 2x"
-        type="image/avif"
-      >
-      <img
-        class="product-img js-product-image"
-        src="${imgBase}.avif"
-        alt="${product.name}"
-        data-full="${imgBase}@2x.avif"
-        data-title="${product.name}"
-      >
-    </picture>
+      <article class="product-card h-100 rounded-4 bg-white shadow-sm overflow-hidden">
+        <picture>
+          <source
+            srcset="${imgBase}.avif 1x, ${imgBase}@2x.avif 2x"
+            type="image/avif"
+          >
+          <img
+            class="product-img js-product-image"
+            src="${imgBase}.avif"
+            alt="${product.name}"
+            data-full="${imgBase}@2x.avif"
+            data-title="${product.name}"
+          >
+        </picture>
 
-    <div class="p-4">
-      <span class="badge rounded-pill product-badge mb-3">
-        ${product.category}
-      </span>
+        <div class="product-content p-4">
+          <div class="product-meta d-flex align-items-start justify-content-between gap-2 mb-3">
+            <span class="badge rounded-pill product-badge">
+              ${product.category}
+            </span>
 
-      <h3 class="h5 fw-bold mb-2">${product.name}</h3>
+            ${
+              isOutOfStock
+                ? `<span class="badge rounded-pill product-stock product-stock-out">Tükendi</span>`
+                : `<span class="badge rounded-pill product-stock product-stock-in">Stokta</span>`
+            }
 
-      <p class="text-muted">${product.description}</p>
+            <span class="badge rounded-pill product-price">
+              ${product.unitPrice}₺
+            </span>
+          </div>
 
-      <div class="d-grid d-sm-flex gap-2">
-        <a
-          class="btn btn-primary btn-sm rounded-pill flex-fill"
-          href="https://wa.me/${orderPhone.replace("+", "")}?text=${message}"
-          target="_blank"
-          rel="noopener"
-        >
-          <i class="bi bi-whatsapp me-1"></i>WhatsApp Sipariş
-        </a>
+          <h3 class="h5 fw-bold mb-2">${product.name}</h3>
 
-        <a
-          class="btn btn-outline-secondary btn-sm rounded-pill flex-fill"
-          href="tel:${orderPhone}"
-        >
-          <i class="bi bi-telephone me-1"></i>Telefon Sipariş
-        </a>
-      </div>
+          <p class="text-muted">${product.description}</p>
+
+          <div class="d-grid d-sm-flex gap-2">
+            ${
+              isOutOfStock
+                ? `
+                  <button
+                    class="btn btn-primary btn-sm rounded-pill flex-fill"
+                    type="button"
+                    disabled
+                  >
+                    <i class="bi bi-whatsapp me-1"></i>Stokta Yok
+                  </button>
+                `
+                : `
+                  <a
+                    class="btn btn-primary btn-sm rounded-pill flex-fill"
+                    href="https://wa.me/${orderPhone.replace("+", "")}?text=${message}"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <i class="bi bi-whatsapp me-1"></i>WhatsApp Sipariş
+                  </a>
+                `
+            }
+
+            <a
+              class="btn btn-outline-secondary btn-sm rounded-pill flex-fill"
+              href="tel:${orderPhone}"
+            >
+              <i class="bi bi-telephone me-1"></i>Telefon Sipariş
+            </a>
+          </div>
+        </div>
+      </article>
     </div>
-  </article>
-</div>
   `;
 }
 
@@ -117,12 +159,34 @@ function renderProducts() {
   const homeProducts = document.querySelector("#home-products");
   const productsGrid = document.querySelector("#products-grid");
 
+  const availableProducts = products.filter(
+    (product) => product.stockStatus !== "out-of-stock",
+  );
+
+  const sortedProducts = [...products].sort((a, b) => {
+    const aOutOfStock = a.stockStatus === "out-of-stock";
+    const bOutOfStock = b.stockStatus === "out-of-stock";
+
+    if (aOutOfStock && !bOutOfStock) {
+      return 1;
+    }
+
+    if (!aOutOfStock && bOutOfStock) {
+      return -1;
+    }
+
+    return 0;
+  });
+
   if (homeProducts) {
-    homeProducts.innerHTML = products.slice(-3).map(productCard).join("");
+    homeProducts.innerHTML = availableProducts
+      .slice(-3)
+      .map(productCard)
+      .join("");
   }
 
   if (productsGrid) {
-    productsGrid.innerHTML = products.map(productCard).join("");
+    productsGrid.innerHTML = sortedProducts.map(productCard).join("");
   }
 }
 
